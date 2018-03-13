@@ -1,0 +1,44 @@
+SYSTEM=`(uname -s) 2>/dev/null`
+RELEASE=`(uname -r) 2>/dev/null`
+
+case "$SYSTEM.$RELEASE" in
+  FreeBSD.2*)   DEFS="-DFREEBSD2"
+                ;;
+  FreeBSD.3*)   DEFS="-DFREEBSD3"
+                ;;
+  FreeBSD.4*)   DEFS="-DFREEBSD4"
+                ;;
+  FreeBSD.5*)   DEFS="-DFREEBSD5"
+                ;;
+  FreeBSD.6*)   DEFS="-DFREEBSD6"
+                ;;
+  FreeBSD.7*)   DEFS="-DFREEBSD7"
+                ;;
+  OpenBSD.2*)   DEFS="-DOPENBSD2"
+                ;;
+  OpenBSD.3*)   DEFS="-DOPENBSD3"
+                ;;
+   BSD/OS.2*)   DEFS="-DBSDI2"
+                ;;
+   BSD/OS.3*)   DEFS="-DBSDI3"
+                ;;
+   BSD/OS.4*)   DEFS="-DBSDI4"
+                ;;
+SunOS.5.[0-5]*)	DEFS="-DSUNOS5 -DUSE_PREAD"
+		RANLIB=":"
+		;;
+    SunOS.5*)	DEFS="-DSUNOS5 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+		RANLIB=":"
+		;;
+  Linux.2.4*)   DEFS="-DLINUX2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+		;;
+    Linux.2*)   DEFS="-DLINUX2"
+		;;
+           *)   echo unsupported system: $SYSTEM.$RELEASE 1>&2; exit 1
+		;;
+esac
+
+unset MAKELEVEL	# shut up chatty GNU make
+
+make DEFS="$DEFS" CC="${CC-gcc -Wunused}" RANLIB="${RANLIB-ranlib}" \
+	AR="${AR-ar rv}" SYSLIBS="$SYSLIBS" all
