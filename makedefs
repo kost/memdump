@@ -32,7 +32,10 @@ SunOS.5.[0-5]*)	DEFS="-DSUNOS5 -DUSE_PREAD"
 		;;
   Linux.2.4*)   DEFS="-DLINUX2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
 		;;
-    Linux.2*)   DEFS="-DLINUX2"
+  Linux.2.6*|\
+   Linux.3.*)   DEFS="-DLINUX2"
+		;;
+	GNU*)   DEFS="-DLINUX2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
 		;;
            *)   echo unsupported system: $SYSTEM.$RELEASE 1>&2; exit 1
 		;;
